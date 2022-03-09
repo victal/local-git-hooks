@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 
 CURRENT_SCRIPT="${BASH_SOURCE[0]}"
 CURRENT_ENV="${CURRENT_SCRIPT%.*}.env"
