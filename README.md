@@ -64,9 +64,9 @@ pre-commit/
   (which means you need a running Jenkins instance and valid credentials to use this hook).
 
   Provide the following variables at pre-commit/jenkinsfile.env in order for the hook to run:
-  - JENKINS_USER='jenkins username with which to run the hook'
-  - JENKINS_PASSWD='Not your password, but an API Token created at $YOUR_JENKINS_URL/me/configure'
   - JENKINS_URL='Root URL for your jenkins instance'
+  - JENKINS_USER='jenkins username with which to run the hook'
+  - JENKINS_PASSWD='Not your password, but an API Token created at `$JENKINS_URL/me/configure`'
   - HTTP_PROXY or HTTPS_PROXY: If you use a proxy to access your jenkins instance and you do not already set the appropriate env-vars somewhere else, you will need to add them to jenkinsfile.env as well
 
 - **kubernetes.sh**: Validates changed kubernetes manifests (files defined by a regexp, which defaults to any .yml or .yaml file inside a `kubernetes` directory). Uses [kubeconform](https://github.com/yannh/kubeconform) or [kubeval](https://www.kubeval.com/) for validation, according to which is installed (kubeconform is chosen over kubeval if both are present)
