@@ -14,7 +14,8 @@ This repository takes advantage of the global `core.hooksPath` configuration, so
 ## I'm using husky and this ~expletive~ does not work! What gives?
 
 Husky is a popular npm package to manage git hooks inside a given repository. 
-Unfortunately, from v7 onwards, it also works by overwriting the `core.hooksPath` configuration on the repositories it is installed, which means our local hooks don't work automatically in husky-managed repos.
+
+Unfortunately, from v7 onwards, it works by overwriting the `core.hooksPath` configuration on the repositories it is installed, which means our local hooks don't work automatically in husky-managed repos.
 
 In order to run our local hooks on a husky managed repo, we have to add the following snippet at the beginning of every hook husky creates under `./husky`: 
 
@@ -43,18 +44,26 @@ fi
 pre-commit/
 
 - **branch_name.sh**: Validates that new branches created from a given "main branch" are named according to a provided regexp.
+
   Provide the following variables at pre-commit/branch_name.env in order for the hook to run:
-    - MAIN_BRANCH="the branch your new branches are created from"
+    - MAIN_BRANCH="the branch your new branches are created from (usually master or main)"
     - VALID_BRANCH_REGEXP="a regexp that matches your preferred branch format"
 
 - **jenkinsfile.sh**: Validates every Jenkinsfile listed in the current commit changed files using the Jenkins API.
   (which means you need a running Jenkins instance and valid credentials to use this hook).
+
   Provide the following variables at pre-commit/jenkinsfile.env in order for the hook to run:
   - JENKINS_USER='jenkins username with which to run the hook'
   - JENKINS_PASSWD='Not your password, but an API Token created at $YOUR_JENKINS_URL/me/configure'
   - JENKINS_URL='Root URL for your jenkins instance'
-  - HTTP_PROXY or HTTPS_PROXY: If you need to use a proxy to access your jenkins instance and you do not already set the appropriate env-vars, you can add them to the jenkinsfile.env file for that
+  - HTTP_PROXY or HTTPS_PROXY: If you use a proxy to access your jenkins instance and you do not already set the appropriate env-vars somewhere else, you will need to add them to jenkinsfile.env as well
 
-- **kubernetes.sh**: Validates changed kubernetes manifests (files defined by a regexp, which defaults to any .yml or .yaml file inside a `kubernetes` directory). Uses kubeconform or kubeval for validation, according to which is installed (kubeconform is chosen over kubeval if both are present)
+- **kubernetes.sh**: Validates changed kubernetes manifests (files defined by a regexp, which defaults to any .yml or .yaml file inside a `kubernetes` directory). Uses [kubeconform](https://github.com/yannh/kubeconform) or [kubeval](https://www.kubeval.com/) for validation, according to which is installed (kubeconform is chosen over kubeval if both are present)
+
   Provide the following variables at pre-commit/kubernetes.env in order to customize the hook:
-    - MANIFEST_FILE_PATTERN: file pattern to validate if found
+    - MANIFEST_FILE_PATTERN="file pattern that matches the manifest files you want to validate"
+
+
+## Support / Issues / etc.
+
+This is a personal project, which means that new features or bug corrections will be implemented according to the maintainer's whims.
