@@ -39,6 +39,17 @@ if [ -e "$(git config --global core.hookspath)/pre-commit" ]; then
 fi
 ```
 
+## Structure
+
+  Every hook script in `hooks/$action` is a simple script that does the following:
+  
+  - Checks if the hook needs to run (for example, we do not run `pre-commit` hooks unless there are staged changes)
+  - Runs the equivalent hook on the current repo (i.e. executes `./.git/hooks/$action`)
+  - Runs every executable script in `hooks/${action}.d`
+    - As a standard, every executable script `hooks/${action}.d/${script}.sh` sources an `hooks/${action}.d/${script}.env` to load its configurations
+    - Check the `Implemented hooks` section to see which configurations are available for each script and `hooks/${action}.d/${script}.env.example` files for examples, if available.
+
+
 ## Implemented hooks
 
 pre-commit/
