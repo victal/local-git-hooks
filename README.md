@@ -73,6 +73,7 @@ pre-commit/
 
   Provide the following variables at pre-commit/kubernetes.env in order to customize the hook:
     - MANIFEST_FILE_PATTERN="file pattern that matches the manifest files you want to validate"
+    - KUBERNETES_API_VERSION="kubernetes API version against which to validate manifests **when using kubeconform**"
 
 
 ## Support / Issues / etc.
