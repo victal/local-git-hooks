@@ -1,4 +1,14 @@
 #!/usr/bin/env sh
+
+# See https://git-scm.com/docs/githooks#_prepare_commit_msg for
+# definitions of these variables
+COMMIT_MESSAGE_SOURCE="$2"
+
+if [ "${COMMIT_MESSAGE_SOURCE}" != "message" ]; then
+    echo "Not running commitizen on commit message from source: ${COMMIT_MESSAGE_SOURCE}"
+    exit 0
+fi
+
 if type commitlint >/dev/null 2>&1;
 then
     if commitlint -x "$(npm root -g)/@commitlint/config-conventional" -q -e;
