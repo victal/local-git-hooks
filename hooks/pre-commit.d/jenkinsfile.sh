@@ -24,13 +24,9 @@ function check_required_vars() {
 
 check_required_vars
 
-if [[ -z ${JENKINSFILE_PATTERN} ]]; then
-   JENKINSFILE_PATTERN='jenkinsfile$'
-fi
-
-if [[ -z ${JENKINS_REQUEST_TIMEOUT} ]]; then
-   JENKINS_REQUEST_TIMEOUT=5
-fi
+# Configurations with default values
+JENKINSFILE_PATTERN="${JENKINSFILE_PATTERN:-jenkinsfile$}"
+JENKINS_REQUEST_TIMEOUT=${JENKINS_REQUEST_TIMEOUT:-5}
 
 # Response output in case of valid Jenkinsfile
 CORRECT_VALIDATION_MESSAGE="Jenkinsfile successfully validated."
@@ -75,4 +71,3 @@ if [ -n "$MODIFIED_JENKINSFILES" ]; then
       validate_jenkinsfile "$JENKINSFILE"
    done
 fi
-
