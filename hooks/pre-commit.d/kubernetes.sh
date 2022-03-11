@@ -11,21 +11,16 @@ then
    . "$CURRENT_ENV"
 fi
 
-if [ -z "${MANIFEST_FILE_PATTERN}" ]; 
-then
-   MANIFEST_FILE_PATTERN="kubernetes.*\.ya*ml$"
-fi
+KUBERNETES_API_VERSION=${KUBERNETES_API_VERSION:-1.19}
+MANIFEST_FILE_PATTERN="${MANIFEST_FILE_PATTERN:-kubernetes.*\.ya*ml$}"
 
 MODIFIED_MANIFESTS=$(git diff --name-only --staged | grep -i "${MANIFEST_FILE_PATTERN}")
 
-exit 0
 if [ -n "$MODIFIED_MANIFESTS" ]; then
    if type kubeconform >/dev/null 2>&1;
    then
       echo "Kubeconform installed. Checking changed kubernetes manifests"
-      set -x
-      kubeconform -kubernetes-version 1.19 -strict -verbose $MODIFIED_MANIFESTS
-      set +x
+      kubeconform -kubernetes-version "${KUBERNETES_API_VERSION}" -strict -verbose "$MODIFIED_MANIFESTS"
       RETCODE=$?
       if [ $RETCODE -ne 0 ]
       then
@@ -35,7 +30,7 @@ if [ -n "$MODIFIED_MANIFESTS" ]; then
    elif type kubeval > /dev/null 2>&1; 
    then
       echo "Kubeval installed. Checking changed kubernetes manifests"
-      kubeval --strict $MODIFIED_MANIFESTS
+      kubeval --strict "$MODIFIED_MANIFESTS"
       RETCODE=$?
       if [ $RETCODE -ne 0 ]
       then
