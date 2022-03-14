@@ -52,7 +52,7 @@ fi
 
 ## Implemented hooks
 
-pre-commit/
+### [pre-commit](https://git-scm.com/docs/githooks#_pre_commit)/
 
 - **branch_name.sh**: Validates that new branches created from a given "main branch" are named according to a provided regexp.
 
@@ -75,6 +75,10 @@ pre-commit/
     - MANIFEST_FILE_PATTERN="file pattern that matches the manifest files you want to validate"
     - KUBERNETES_API_VERSION="kubernetes API version against which to validate manifests **when using kubeconform**"
 
+### [prepare-commit-msg](https://git-scm.com/docs/githooks#_pre_commit)/
+
+- **commitizen.sh**: Checks if the commit message abides to commitlint configurations and runs a commitizen prompt to update the message when it doesn't.
+  Requires commitizen and commitlint to be installed globally with NPM. Use `npm install -g @commitlint/config-conventional @commitlint/cli commitizen` for that.
 
 ## Support / Issues / etc.
 

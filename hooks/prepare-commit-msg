@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Run prepare-commit-msg hook from the git repository, if present
+if [ -x ./.git/hooks/prepare-commit-msg ]; then
+    ./.git/hooks/prepare-commit-msg "$@"
+    HOOK_RETCODE=$?
+    if [ $HOOK_RETCODE -ne 0 ]; then
+       exit $HOOK_RETCODE
+    fi
+fi
+
+# Run extra installed hooks
+for HOOK in "$SCRIPT_DIR"/prepare-commit-msg.d/*.sh
+do
+    "$HOOK" "$@"
+    HOOK_RETCODE=$?
+    if [ $HOOK_RETCODE -ne 0 ]; then
+       exit $HOOK_RETCODE
+    fi
+done
+
+# vim:set et sw=4 ts=8 ft=sh:
