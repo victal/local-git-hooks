@@ -63,7 +63,7 @@ function validate_jenkinsfile() {
     fi
  }
 
-MODIFIED_JENKINSFILES=$(git diff --name-only --staged | grep -i "${JENKINSFILE_PATTERN}")
+MODIFIED_JENKINSFILES=$(git diff --name-status --staged | grep -v '^D' | awk "/${JENKINSFILE_PATTERN}/{print \$2}")
 
 if [ -n "$MODIFIED_JENKINSFILES" ]; then
    echo 'Validating changed Jenkinsfiles' 
