@@ -11,10 +11,10 @@ then
    . "$CURRENT_ENV"
 fi
 
-KUBERNETES_API_VERSION=${KUBERNETES_API_VERSION:-1.19}
+KUBERNETES_API_VERSION=${KUBERNETES_API_VERSION:-1.19.11}
 MANIFEST_FILE_PATTERN="${MANIFEST_FILE_PATTERN:-kubernetes.*\.ya*ml$}"
 
-MODIFIED_MANIFESTS=$(git diff --name-only --staged | grep -i "${MANIFEST_FILE_PATTERN}")
+MODIFIED_MANIFESTS=$(git diff --name-status --staged | grep -v '^D' | awk "BEGIN{IGNORECASE = 1} /${MANIFEST_FILE_PATTERN}/{print \$2} END{}")
 
 if [ -n "$MODIFIED_MANIFESTS" ]; then
    if type kubeconform >/dev/null 2>&1;
