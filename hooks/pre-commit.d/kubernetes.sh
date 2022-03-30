@@ -20,7 +20,7 @@ if [ -n "$MODIFIED_MANIFESTS" ]; then
    if type kubeconform >/dev/null 2>&1;
    then
       echo "Kubeconform installed. Checking changed kubernetes manifests"
-      kubeconform -kubernetes-version "${KUBERNETES_API_VERSION}" -strict -verbose "$MODIFIED_MANIFESTS"
+      kubeconform -kubernetes-version "${KUBERNETES_API_VERSION}" -strict -verbose $MODIFIED_MANIFESTS
       RETCODE=$?
       if [ $RETCODE -ne 0 ]
       then
@@ -30,7 +30,7 @@ if [ -n "$MODIFIED_MANIFESTS" ]; then
    elif type kubeval > /dev/null 2>&1; 
    then
       echo "Kubeval installed. Checking changed kubernetes manifests"
-      kubeval --strict "$MODIFIED_MANIFESTS"
+      kubeval --strict $MODIFIED_MANIFESTS
       RETCODE=$?
       if [ $RETCODE -ne 0 ]
       then
